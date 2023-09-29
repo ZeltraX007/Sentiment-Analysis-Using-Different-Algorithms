@@ -8,6 +8,7 @@ from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 import ngram
 import os
+import pandas as pd
 
 db_path = 'DataBase/knowledgeBase.db'
 # Check if the directory exists, create it if not
@@ -57,19 +58,22 @@ loadWordArrays()
 reviews = []
 #print([' '.join(x) for x in ngrams('How are you',2)])
 
-sentences = ['I hate this food',
-             'I love this food',
-             'bad service and not clean place',
-             'tasty food',
-             'Truly amazing place, with delicious food!',
-             'visited for lunch, the place was crowded and seems to be popular',
-             'the place had a really nice atmosphere and the food was delicious',
-             'This palce has occupied the dumbest staff who has no common sense',
-             'The choice was good. no doubt the food was tasty',
-             'The choice was bad. no doubt the food was not tasty',
-             "It's been a while since I have dined at Mango Tree but from what I remember the food is great! Service was a little bit slow but the food made up for it :D Good range of cocktails too.",
-             'Good food but the service is too slow. Spent nearly 3 hours just to have dinner. Waiters confused on the order and mixed up on lot of tables.',
-             'Mouth watering, tasty Indian food. My wife kids were so much interested to eat. Had a nice time with family.']
+dataset = pd.read_csv('C:/Users/Aritr/Documents/Sentiment analysis/dataset.csv', encoding='iso-8859-1')
+sentences = dataset['text']
+
+# sentences = ['I hate this food',
+#              'I love this food',
+#              'bad service and not clean place',
+#              'tasty food',
+#              'Truly amazing place, with delicious food!',
+#              'visited for lunch, the place was crowded and seems to be popular',
+#              'the place had a really nice atmosphere and the food was delicious',
+#              'This palce has occupied the dumbest staff who has no common sense',
+#              'The choice was good. no doubt the food was tasty',
+#              'The choice was bad. no doubt the food was not tasty',
+#              "It's been a while since I have dined at Mango Tree but from what I remember the food is great! Service was a little bit slow but the food made up for it :D Good range of cocktails too.",
+#              'Good food but the service is too slow. Spent nearly 3 hours just to have dinner. Waiters confused on the order and mixed up on lot of tables.',
+#              'Mouth watering, tasty Indian food. My wife kids were so much interested to eat. Had a nice time with family.']
 
 for num in sentences:
     data = num
