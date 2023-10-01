@@ -7,6 +7,7 @@ from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
 from nltk.tokenize import sent_tokenize, word_tokenize
 import ngram
+import contractions
 import os
 import pandas as pd
 
@@ -58,7 +59,28 @@ loadWordArrays()
 reviews = []
 #print([' '.join(x) for x in ngrams('How are you',2)])
 
-dataset = pd.read_csv('C:/Users/Aritr/Documents/Sentiment analysis/dataset.csv', encoding='iso-8859-1')
+dataset = pd.read_csv('dataset.csv', encoding='iso-8859-1')
+
+def normalize_text(sentence):
+    if isinstance(sentence, str):
+        # Convert to lowercase
+        normalized_text = sentence.lower()
+
+        # Remove special characters, punctuations, and extra white spaces
+        normalized_text = re.sub(r'[^\w\s]', '', normalized_text)
+        normalized_text = re.sub(r'\s+', ' ', normalized_text).strip()
+
+        # Expand contractions
+        normalized_text = contractions.fix(normalized_text)
+
+        # Remove leading/trailing white spaces
+        normalized_text = normalized_text.strip()
+
+        return normalized_text
+    else:
+        # Handle non-string values (e.g., floats) by converting them to an empty string
+        return ''
+
 sentences = dataset['text']
 
 # sentences = ['I hate this food',
@@ -76,7 +98,7 @@ sentences = dataset['text']
 #              'Mouth watering, tasty Indian food. My wife kids were so much interested to eat. Had a nice time with family.']
 
 for num in sentences:
-    data = num
+    data = normalize_text(num)
     word_sent_tokens = word_tokenize(data)
     sentCounter = 0
     sentence = []
