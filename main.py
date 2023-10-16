@@ -97,8 +97,11 @@ sentences = dataset['text']
 #              'Good food but the service is too slow. Spent nearly 3 hours just to have dinner. Waiters confused on the order and mixed up on lot of tables.',
 #              'Mouth watering, tasty Indian food. My wife kids were so much interested to eat. Had a nice time with family.']
 
-for num in sentences:
-    data = normalize_text(num)
+total_rows = len(dataset)
+correct_predictions = 0
+
+for index, row in dataset.iterrows():
+    data = normalize_text(row['text'])
     word_sent_tokens = word_tokenize(data)
     sentCounter = 0
     sentence = []
@@ -151,24 +154,12 @@ for num in sentences:
                 sentCounter = sentCounter + val[1]
                 sentCounter = sentCounter - 1
 
-    if sentCounter > 0:
-        print('This text is positive')
-        print('Sent value is '+str(sentCounter))
-        print('-------------------')
-        posCount = posCount+1
+    if sentCounter > 0 and row['sentiment'] == 'positive':
+        correct_predictions += 1
+    elif sentCounter == 0 and row['sentiment'] == 'neutral':
+        correct_predictions += 1
+    elif sentCounter < 0 and row['sentiment'] == 'negative':
+        correct_predictions += 1
 
-    if sentCounter == 0:
-        print('This text is neutral')
-        print('Sent value is '+str(sentCounter))
-        print('-------------------')
-        neuCount = neuCount+1
-
-    if sentCounter < 0:
-        print('This text is negative')
-        print('Sent value is '+str(sentCounter))
-        print('-------------------')
-        negCount = negCount+1
-
-print('positive sentences '+str(posCount))
-print('neutral sentences '+str(neuCount))
-print('negative sentences '+str(negCount))
+accuracy = (correct_predictions / total_rows) * 100
+print(f"Accuracy: {accuracy:.2f}%")
