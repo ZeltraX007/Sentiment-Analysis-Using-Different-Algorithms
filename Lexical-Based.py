@@ -59,7 +59,7 @@ loadWordArrays()
 reviews = []
 #print([' '.join(x) for x in ngrams('How are you',2)])
 
-dataset = pd.read_csv('dataset.csv', encoding='iso-8859-1')
+dataset = pd.read_csv('newdata.csv', encoding='iso-8859-1')
 
 def normalize_text(sentence):
     if isinstance(sentence, str):
@@ -81,27 +81,13 @@ def normalize_text(sentence):
         # Handle non-string values (e.g., floats) by converting them to an empty string
         return ''
 
-sentences = dataset['text']
-
-# sentences = ['I hate this food',
-#              'I love this food',
-#              'bad service and not clean place',
-#              'tasty food',
-#              'Truly amazing place, with delicious food!',
-#              'visited for lunch, the place was crowded and seems to be popular',
-#              'the place had a really nice atmosphere and the food was delicious',
-#              'This palce has occupied the dumbest staff who has no common sense',
-#              'The choice was good. no doubt the food was tasty',
-#              'The choice was bad. no doubt the food was not tasty',
-#              "It's been a while since I have dined at Mango Tree but from what I remember the food is great! Service was a little bit slow but the food made up for it :D Good range of cocktails too.",
-#              'Good food but the service is too slow. Spent nearly 3 hours just to have dinner. Waiters confused on the order and mixed up on lot of tables.',
-#              'Mouth watering, tasty Indian food. My wife kids were so much interested to eat. Had a nice time with family.']
+sentences = dataset['Headline']
 
 total_rows = len(dataset)
 correct_predictions = 0
 
 for index, row in dataset.iterrows():
-    data = normalize_text(row['text'])
+    data = normalize_text(row['Headline'])
     word_sent_tokens = word_tokenize(data)
     sentCounter = 0
     sentence = []
@@ -154,11 +140,11 @@ for index, row in dataset.iterrows():
                 sentCounter = sentCounter + val[1]
                 sentCounter = sentCounter - 1
 
-    if sentCounter > 0 and row['sentiment'] == 'positive':
+    if sentCounter > 0 and row['sentiment'] == 'Positive':
         correct_predictions += 1
-    elif sentCounter == 0 and row['sentiment'] == 'neutral':
+    elif sentCounter == 0 and row['sentiment'] == 'Neutral':
         correct_predictions += 1
-    elif sentCounter < 0 and row['sentiment'] == 'negative':
+    elif sentCounter < 0 and row['sentiment'] == 'Negative':
         correct_predictions += 1
 
 accuracy = (correct_predictions / total_rows) * 100

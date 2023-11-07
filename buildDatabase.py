@@ -18,6 +18,8 @@ word_value_pairs = [
     ('bad', -1),
     ('tasty', 1),
     ('hate', -1),
+    ('buy',1),
+    ('bought',1),
     ('a+',1),
     ('abound',1),
     ('abounds',1),
