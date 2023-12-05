@@ -1,0 +1,1 @@
+data = normalize_text(row['Headline'])
